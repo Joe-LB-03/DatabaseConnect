@@ -35,7 +35,7 @@ public class MovieDatabaseDataTest
             switch(userInput)
             {
                 case 1:
-                    System.out.println("1) Add Customer\n2) Modify Customer\n3) Delete Customer\n4) Display Purchase History\n5) Display Overdue Fees");
+                    System.out.println("1) Add Customer\n2) Modify Customer\n3) Delete Customer\n4) Display Purchase History\n5) Display Overdue Fees\n6) Calculate customer collection route and distance");
                     userInput = scanner.nextInt();
                     switch(userInput)
                     {
@@ -50,6 +50,9 @@ public class MovieDatabaseDataTest
                         break;
                         case 5:
                             DisplayOverdueFees();
+                        break;
+                        case 6:
+                            
                         break;
                     }
                 break;
@@ -248,6 +251,11 @@ public class MovieDatabaseDataTest
         }
 
         return bDisplay;
+    }
+
+    public void DoTheDijkstraThing()
+    {
+        
     }
 
     public MovieDatabaseDataTest()
