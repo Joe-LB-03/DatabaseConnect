@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MovieDatabaseDataTest 
@@ -52,7 +56,7 @@ public class MovieDatabaseDataTest
                             DisplayOverdueFees();
                         break;
                         case 6:
-                            
+                            DoTheDijkstraThing();
                         break;
                     }
                 break;
@@ -241,7 +245,6 @@ public class MovieDatabaseDataTest
                 System.out.println("\nRentalID = " + RentalID + "\n");
             }
             
-            rs.close();
             stmt.close();   
             bDisplay = true;
         } 
@@ -253,9 +256,62 @@ public class MovieDatabaseDataTest
         return bDisplay;
     }
 
-    public void DoTheDijkstraThing()
+    public boolean DoTheDijkstraThing()
     {
-        
+        boolean bDijkstra = false;
+        Statement stmt = null;
+        ResultSet rs = null;
+        ResultSet rs2 = null;
+        ArrayList<Node> Customers = new ArrayList<Node>();
+
+        try
+        {
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery("SELECT CustomerName, CustomerID FROM Customer;");
+
+            while (rs.next())
+            {
+                String CustomerName = rs.getString("CustomerName");
+                int CustomerID = rs.getInt("CustomerID");
+                Node node = new Node(CustomerName);
+                node.setID(CustomerID);
+                Customers.add(node);
+            }
+            rs.close();
+            stmt.close();   
+
+            stmt = conn.createStatement();
+            rs2 = stmt.executeQuery("SELECT RootCustomerID, ChildCustomerID, Distance FROM AdjacencyList;");
+
+            while (rs2.next())
+            {
+                int RootCustomerID = rs2.getInt("RootCustomerID");
+                int ChildCustomerID = rs2.getInt("ChildCustomerID");
+                double distance = rs2.getInt("Distance");
+
+                Customers.get(RootCustomerID-1).addNeighbour(new Edge(distance,Customers.get(RootCustomerID-1),Customers.get(ChildCustomerID-1)));
+            }
+
+            DijkstraShortestPath shortestPath = new DijkstraShortestPath();
+            shortestPath.computeShortestPaths(Customers.get(0));
+
+            //Then, we print out all the wonderful data we compiled with some nice lines to make it look pretty.
+            System.out.println("--------------------------------------");
+            System.out.println("Calculating minimum distance to Customer!");
+            System.out.println("--------------------------------------");
+            
+            for(int i = 0; i < Customers.size(); i++)
+            {
+                System.out.println("Minimum distance from Shop to Customer ID " + (i+1) + ": "+((Customers.get(i).getDistance()+5)*10) + "km");
+            }
+            bDijkstra = true;
+        } 
+        catch (SQLException e)
+        {
+            System.err.println(e.getClass().getName() + ": " + e.getMessage());
+        }
+
+        return bDijkstra;
     }
 
     public MovieDatabaseDataTest()

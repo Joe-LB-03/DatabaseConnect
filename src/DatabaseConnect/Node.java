@@ -7,6 +7,7 @@ public class Node implements Comparable<Node>
 {
  
     private String name;
+    private int ID;
     private List<Edge> adjacenciesList;
     //I also found this List library that apparently makes it easier to create adjacency lists. Will try it out. (UPDATE: It works great!)
     private boolean visited;
@@ -34,6 +35,16 @@ public class Node implements Comparable<Node>
     public void setName(String name) 
     {
 	    this.name = name;
+    }
+
+    public int getID() 
+    {
+        return ID;
+    }
+
+    public void setID(int ID) 
+    {
+	    this.ID = ID;
     }
  
     public List<Edge> getAdjacenciesList() 

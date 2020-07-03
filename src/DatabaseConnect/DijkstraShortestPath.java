@@ -6,25 +6,30 @@ import java.util.PriorityQueue;
  
 public class DijkstraShortestPath
 {
-    public void computeShortestPaths(final Node sourcenode) {
+    public void computeShortestPaths(final Node sourcenode) 
+    {
         sourcenode.setDistance(0);
         final PriorityQueue<Node> priorityQueue = new PriorityQueue<Node>();
         priorityQueue.add(sourcenode);
         sourcenode.setVisited(true);
-        while (!priorityQueue.isEmpty()) {
+        while (!priorityQueue.isEmpty())
+        {
             // Find the minimum distance node using priority queue
             final Node actualnode = priorityQueue.poll();
             // I found you can iterate over a collection using a colon like this. I know we
             // didn't learn this but I found it in the documentation!
-            for (final Edge edge : actualnode.getAdjacenciesList()) {
+            for (final Edge edge : actualnode.getAdjacenciesList()) 
+            {
                 final Node n = edge.getTargetnode();
-                if (!n.isVisited()) {
+                if (!n.isVisited()) 
+                {
                     // Increment the total distance if needed.
                     final double newDistance = actualnode.getDistance() + edge.getWeight();
                     // Now if the distance found is more efficent, that becomes the new "smallest"
                     // distance, and the node being worked on is removed from the Priority Queue,
                     // then added to the back.
-                    if (newDistance < n.getDistance()) {
+                    if (newDistance < n.getDistance()) 
+                    {
                         priorityQueue.remove(n);
                         n.setDistance(newDistance);
                         n.setPredecessor(actualnode);
