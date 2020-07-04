@@ -39,7 +39,7 @@ public class MovieDatabaseDataTest
             switch(userInput)
             {
                 case 1:
-                    System.out.println("1) Add Customer\n2) Modify Customer\n3) Delete Customer\n4) Display Purchase History\n5) Display Overdue Fees\n6) Calculate customer collection route and distance");
+                    System.out.println("1) Add Customer (for demo purpouses, just adds Bo Jo)\n2) Modify Customer (for demo purpouses, just changes John Doe's address)\n3) Delete Customer (for demo purpouses, deletes Becky Jane)\n4) Display Purchase History\n5) Display Overdue Fees\n6) Calculate customer collection route and distance");
                     userInput = scanner.nextInt();
                     switch(userInput)
                     {
