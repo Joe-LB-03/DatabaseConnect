@@ -8,9 +8,10 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -168,6 +169,10 @@ public class MovieDatabaseDataTest
             stmt.executeUpdate(sql);
             sql = "DELETE from Customer where CustomerName = 'Becky Jane';";
             stmt.executeUpdate(sql);
+            sql = "DELETE from AdjacencyList where RootCustomerID =" + CustomerID + ";";
+            stmt.executeUpdate(sql);
+            sql = "DELETE from AdjacencyList where ChildCustomerID =" + CustomerID + ";";
+            stmt.executeUpdate(sql);
 
             System.out.println("\nOUTSTANDING RENTAL ID's IN  THE NAME OF THE DELETED USER:\n");
             final ResultSet newrs = stmt.executeQuery( "SELECT * FROM Rental WHERE CustomerID ="+ CustomerID + ";");
@@ -262,7 +267,8 @@ public class MovieDatabaseDataTest
         Statement stmt = null;
         ResultSet rs = null;
         ResultSet rs2 = null;
-        ArrayList<Node> Customers = new ArrayList<Node>();
+        HashMap<Integer,Node> Customers = new HashMap<Integer,Node>();
+        ArrayList<Integer> Indexes = new ArrayList<Integer>();
 
         try
         {
@@ -275,7 +281,8 @@ public class MovieDatabaseDataTest
                 int CustomerID = rs.getInt("CustomerID");
                 Node node = new Node(CustomerName);
                 node.setID(CustomerID);
-                Customers.add(node);
+                Indexes.add(CustomerID);
+                Customers.put(CustomerID,node);
             }
             rs.close();
             stmt.close();   
@@ -289,20 +296,20 @@ public class MovieDatabaseDataTest
                 int ChildCustomerID = rs2.getInt("ChildCustomerID");
                 double distance = rs2.getInt("Distance");
 
-                Customers.get(RootCustomerID-1).addNeighbour(new Edge(distance,Customers.get(RootCustomerID-1),Customers.get(ChildCustomerID-1)));
+                Customers.get(RootCustomerID).addNeighbour(new Edge(distance,Customers.get(RootCustomerID),Customers.get(ChildCustomerID)));
             }
 
             DijkstraShortestPath shortestPath = new DijkstraShortestPath();
-            shortestPath.computeShortestPaths(Customers.get(0));
+            shortestPath.computeShortestPaths(Customers.get(Indexes.get(0)));
 
             //Then, we print out all the wonderful data we compiled with some nice lines to make it look pretty.
             System.out.println("--------------------------------------");
             System.out.println("Calculating minimum distance to Customer!");
             System.out.println("--------------------------------------");
             
-            for(int i = 0; i < Customers.size(); i++)
+            for(int i = 0; i < Indexes.size(); i++)
             {
-                System.out.println("Minimum distance from Shop to Customer ID " + (i+1) + ": "+((Customers.get(i).getDistance()+5)*10) + "km");
+                System.out.println("Minimum distance from Shop to Customer ID " + (Customers.get(Indexes.get(i))) + ": "+((Customers.get(Indexes.get(i)).getDistance()+5)*10) + "km");
             }
             bDijkstra = true;
         } 
