@@ -9,9 +9,6 @@ import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-import java.util.Set;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -345,7 +342,7 @@ public class MovieDatabaseDataTest
         } 
         catch (final SQLException ex)
         {
-            Logger.getLogger(DatabaseConnect.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MovieDatabaseDataTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
