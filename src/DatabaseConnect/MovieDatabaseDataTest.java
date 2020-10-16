@@ -1,6 +1,5 @@
 package DatabaseConnect;
 
-//import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
@@ -15,21 +14,21 @@ import java.util.Scanner;
 public class MovieDatabaseDataTest 
 {
     private Connection conn = null;
-    public static void main(final String args[])
+    public static void main(final String[] args)
     {
         final MovieDatabaseDataTest conn = new MovieDatabaseDataTest();
-        conn.Menu();
+        conn.menu();
         if (conn != null)
         {
             conn.close();            
         }            
     }
 
-    public void Menu()
+    public void menu()
     {
         final Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         boolean loop = true;
-        while(loop == true)
+        while(loop)
         {
             
             System.out.println("1) Customer Maintenance\n2) Movie Maintenence\n3) Download Maintenence\n4) Rental Maintenence\n5) Display Overdue Fees\n6) Quit");
@@ -41,7 +40,7 @@ public class MovieDatabaseDataTest
                     userInput = scanner.nextInt();
                     switch(userInput)
                     {
-                        case 1:
+                                                case 1:
                             addCustomer();
                         break;
                         case 2:
@@ -55,6 +54,9 @@ public class MovieDatabaseDataTest
                         break;
                         case 6:
                             DoTheDijkstraThing();
+                        break;
+                        default:
+                        
                         break;
                     }
                 break;
@@ -72,6 +74,9 @@ public class MovieDatabaseDataTest
                         case 1:
                             AddRental();
                         break;
+                        default:
+                        
+                        break;
                     }
                 break;
                 case 5:
@@ -79,6 +84,9 @@ public class MovieDatabaseDataTest
                 break;
                 case 6:
                     loop = false;
+                break;
+                default:
+                        
                 break;
             }
             
